@@ -36,9 +36,11 @@ public class ChapterService {
         return chapterRepository.findAll();
     }
 
-    public Chapter getChapterById(Long id) {
-        return chapterRepository.findById(id).orElseThrow(() -> new RuntimeException("Chapter not found"));
+    public Chapter getChapterByChapterNumber(Long chapterNumber) {
+        return chapterRepository.findByChapterNumber(chapterNumber)
+                .orElseThrow(() -> new RuntimeException("Chapter not found with chapter number: " + chapterNumber));
     }
+
 
 
 }

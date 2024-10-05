@@ -41,7 +41,7 @@ public class ChapterController {
  // Update an existing chapter
     @PutMapping("/{cid}")
     public ResponseEntity<Chapter> updateChapter(@PathVariable("cid") Long cid, @RequestBody Chapter chapter) {
-        Chapter existingChapter = chapterService.getChapterById(cid);
+        Chapter existingChapter = chapterService.getChapterByChapterNumber(cid);
         
         if (existingChapter == null) {
             return ResponseEntity.notFound().build(); // Handle case where chapter doesn't exist
@@ -57,8 +57,8 @@ public class ChapterController {
     }
  // Get a chapter by ID
     @GetMapping("/{cid}")
-    public ResponseEntity<Chapter> getChapterById(@PathVariable("cid") Long cid) {
-        Chapter chapter = chapterService.getChapterById(cid);
+    public ResponseEntity<Chapter> getChapterBychaptername(@PathVariable("cid") Long cid) {
+        Chapter chapter = chapterService.getChapterByChapterNumber(cid);
         
         if (chapter == null) {
             return ResponseEntity.notFound().build(); // Handle case where chapter doesn't exist
