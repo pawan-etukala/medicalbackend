@@ -36,10 +36,11 @@ public class ChapterService {
         return chapterRepository.findAll();
     }
 
-    public Chapter getChapterByChapterNumber(Long chapterNumber) {
-        return chapterRepository.findByChapterNumber(chapterNumber)
+    public Chapter getChapterById(Long chapterNumber) {
+        return chapterRepository.findById(chapterNumber)
                 .orElseThrow(() -> new RuntimeException("Chapter not found with chapter number: " + chapterNumber));
     }
+    
 
 
 
