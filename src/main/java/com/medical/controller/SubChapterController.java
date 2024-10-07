@@ -222,4 +222,8 @@ public class SubChapterController {
         SubChapter subChapter = subChapterService.getSubChapterById(id);
         return ResponseEntity.ok(subChapter);
     }
+    
+//     public ResponseEntity<Void> deleteSubChapterByChapterNumber( Long subChapter){
+//    	  
+//     }
 }

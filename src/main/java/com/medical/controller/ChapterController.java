@@ -72,4 +72,17 @@ public class ChapterController {
             return new ResponseEntity<>("Error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
+    @DeleteMapping("delete/{chapterNumber}")
+    public ResponseEntity<Void> deleteChapter(@PathVariable Integer chapterNumber) {
+        try {
+        	chapterService.deleteChapterByChapternumber(chapterNumber);
+        	 return ResponseEntity.noContent().build();
+        }catch(RuntimeException e){
+        	 return ResponseEntity.notFound().build();
+        }
+      
+    }
+
 }
