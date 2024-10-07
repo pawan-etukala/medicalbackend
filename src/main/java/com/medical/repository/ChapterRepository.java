@@ -9,6 +9,8 @@ import com.medical.entity.Chapter;
 
 public interface ChapterRepository extends JpaRepository<Chapter, Long> {
 
+
 	Optional<Chapter> findByChapterNumber(Long chapterNumber);
 //	findByChapterNumber(long chapterNumber);
+
 }
