@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.medical.entity.Admin;
 import com.medical.entity.Chapter;
@@ -65,6 +64,17 @@ public class ChapterController {
         }
         
         return ResponseEntity.ok(chapter); // Return the found chapter
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteChapter(@PathVariable long chapterNumber) {
+        try {
+        	chapterService.deleteChapterByChapternumber(chapterNumber);
+        	 return ResponseEntity.noContent().build();
+        }catch(RuntimeException e){
+        	 return ResponseEntity.notFound().build();
+        }
+      
     }
 
 
