@@ -40,9 +40,15 @@ public class ChapterService {
         return chapterRepository.findById(chapterNumber)
                 .orElseThrow(() -> new RuntimeException("Chapter not found with chapter number: " + chapterNumber));
     }
+<<<<<<< HEAD
     public void deleteChapterByChapternumber(Integer chapterNumber) {
     	  Chapter chapter = getChapterById(chapterNumber);
      chapterRepository.delete(chapter);
+=======
+    public Chapter getByChapterNumber(long chapterNumber) {
+        return chapterRepository.findByChapterNumber(chapterNumber)
+                .orElseThrow(() -> new RuntimeException("Chapter not found with number: " + chapterNumber));
+>>>>>>> b28335fff69b297a6ac91ca4205f735299863f2e
     }
     	 
     

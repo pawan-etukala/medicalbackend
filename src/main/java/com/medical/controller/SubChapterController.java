@@ -39,7 +39,7 @@ public class SubChapterController {
     // Add a new subchapter (Text)
     @PostMapping("/text")
     public ResponseEntity<String> createSubChapter(@RequestBody SubChapter subChapter, @RequestParam Long chapterId) {
-        Chapter chapter = chapterRepository.findById(chapterId)
+    	Chapter chapter = chapterRepository.findByChapterNumber(chapterId)
                 .orElseThrow(() -> new RuntimeException("Chapter not found with id: " + chapterId));
         
         // Set the chapter reference in the subchapter
@@ -60,7 +60,7 @@ public class SubChapterController {
             @RequestParam("file") MultipartFile file) {
 
         // Ensure the chapter exists
-        Chapter chapter = chapterRepository.findById(chapterId)
+        Chapter chapter = chapterRepository.findByChapterNumber(chapterId)
                 .orElseThrow(() -> new RuntimeException("Chapter not found with id: " + chapterId));
 
         // Validate content type
@@ -105,21 +105,21 @@ public class SubChapterController {
 
 
     // Update an existing subchapter (Text)
-    @PutMapping("/{cid}/{subChapterId}")
+    @PutMapping("{contentType}/{cid}/{subChapterId}")
     public ResponseEntity<String> updateSubChapter(
             @PathVariable Long cid,
             @PathVariable Integer subChapterId, 
-
+            @PathVariable ContentType contentType,
             @RequestBody SubChapter subChapterDetails) {
     System.out.println(cid+" "+subChapterId);
         
-    	 Chapter chapter = chapterRepository.findById(cid)
+    	 Chapter chapter = chapterRepository.findByChapterNumber(cid)
                  .orElseThrow(() -> new RuntimeException("Chapter not found with id: " + cid));
          
 // Set the chapter reference
 
     	 // Fetch the subchapter by chapter and subchapter number
-         SubChapter subChapter = subChapterService.getSubChapterByChapterAndSubchapterNumber(chapter, subChapterId);
+         SubChapter subChapter = subChapterService.getSubChapterByChapterAndSubchapterNumberAndContentType(chapter, subChapterId,contentType);
          if (subChapter == null) {
              throw new ResponseStatusException(HttpStatus.NOT_FOUND, "SubChapter not found for chapter: " + cid + " and subchapter: " + subChapterId);
          }
@@ -129,6 +129,7 @@ public class SubChapterController {
         // Update the fields of the existing subchapter with the new data
         // subChapter.setChapter(subChapterDetails.getChapter());
          subChapter.setSubchapterTitle(subChapterDetails.getSubchapterTitle());
+         subChapter.setContent(subChapterDetails.getContent());
         // subChapter.setSubchapterNumber(subChapterDetails.getSubchapterNumber());
         // Update any other fields that are necessary
 
@@ -136,6 +137,25 @@ public class SubChapterController {
         subChapterService.saveSubChapter(subChapter);
 
         return ResponseEntity.ok("SubChapter updated successfully");
+    }
+    
+    
+    @GetMapping("{contentType}/{cid}/{subChapterId}")
+    public SubChapter getSubChaoterByContentTypeText(
+    		@PathVariable Long cid,
+            @PathVariable Integer subChapterId, 
+            @PathVariable ContentType contentType
+    		
+    		){
+    	
+    	 Chapter chapter = chapterRepository.findByChapterNumber(cid)
+                 .orElseThrow(() -> new RuntimeException("Chapter not found with id: " + cid));
+    	
+    	 SubChapter subChapter = subChapterService.getSubChapterByChapterAndSubchapterNumberAndContentType(chapter, subChapterId,contentType);
+         if (subChapter == null) {
+             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "SubChapter not found for chapter: " + cid + " and subchapter: " + subChapterId);
+         }
+         return subChapter;
     }
 
 
@@ -149,7 +169,7 @@ public class SubChapterController {
 
     	String existingImageName = "Image_"+chapterId+"_"+subchapterNumber+"_"+imageNumber;
         // Ensure the chapter exists
-        Chapter chapter = chapterRepository.findById(chapterId)
+        Chapter chapter = chapterRepository.findByChapterNumber(chapterId)
                 .orElseThrow(() -> new RuntimeException("Chapter not found with id: " + chapterId));
 
     
@@ -194,12 +214,7 @@ public class SubChapterController {
 
     
     
-    // Get all subchapters (optional, for convenience)
-//    @GetMapping("/{chapterNumber}")
-//    public ResponseEntity<List<SubChapter>> getAllSubChapters() {
-//        List<SubChapter> subChapters = subChapterService.getAllSubChapters();
-//        return ResponseEntity.ok(subChapters);
-//    }
+
 
     // Get a single subchapter by ID (optional)
     @GetMapping("/{id}")

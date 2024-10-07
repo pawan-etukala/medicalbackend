@@ -27,7 +27,7 @@ public class Chapter {
 @GeneratedValue(strategy = GenerationType.IDENTITY) 
 private Long id; 
 
-@Column(name = "chapter_number", nullable = false) 
+@Column(name = "chapter_number", nullable = false, unique=true) 
 private Integer chapterNumber; 
 
 @Column(name = "title", nullable = false) 
@@ -36,6 +36,12 @@ private String title;
 @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
 @JsonManagedReference  // Indicates this is the forward part of the reference
 private List<SubChapter> subChapters;
+
+public Chapter orElseThrow(Object object) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 
 // Getters and Setters 
 }
